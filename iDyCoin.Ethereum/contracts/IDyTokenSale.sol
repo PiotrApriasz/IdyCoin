@@ -4,7 +4,7 @@ pragma solidity >=0.8.0;
 
 import "./Crowdsale.sol";
 
-contract IDyTokenSale is Crowdsale {
+contract IDyTokenSale is Crowdsale { 
 
     constructor(
         uint256 rate,
