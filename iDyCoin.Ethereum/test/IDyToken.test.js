@@ -1,12 +1,7 @@
 const Token = artifacts.require("IDyToken");
-var chai = require("chai");
+
+const chai = require("./setupchai.js");
 const BN = web3.utils.BN;
-const chaiBN = require("chai-bn")(BN);
-chai.use(chaiBN);
-
-var chaiAsPromised = require("chai-as-promised");
-chai.use(chaiAsPromised);
-
 const expect = chai.expect;
 
 require("dotenv").config({path: "../.env"});
@@ -22,7 +17,7 @@ contract("Token Test", async (accounts) => {
     it("all tokens should be in my account", async () => {
         let instance = this.iDyToken;
         let totalSupply = await instance.totalSupply();
-        expect(instance.balanceOf(accounts[0])).to.eventually.be.a.bignumber.equal(totalSupply);
+        return expect(instance.balanceOf(accounts[0])).to.eventually.be.a.bignumber.equal(totalSupply);
     })
 
     it("is possible to send tokens between accounts", async () => {
@@ -32,14 +27,14 @@ contract("Token Test", async (accounts) => {
         expect(instance.balanceOf(deployerAccount)).to.eventually.be.a.bignumber.equal(totalSupply);
         expect(instance.transfer(recipient, tokensAmount)).to.eventually.be.fulfilled;
         expect(instance.balanceOf(deployerAccount)).to.eventually.be.a.bignumber.equal(totalSupply.sub(new BN(tokensAmount)));
-        expect(instance.balanceOf(recipient)).to.eventually.be.a.bignumber.equal(new BN(tokensAmount));
+        return expect(instance.balanceOf(recipient)).to.eventually.be.a.bignumber.equal(new BN(tokensAmount));
     })
 
     it("is not possible to send more tokens than available in total", async () => {
         let instance = this.iDyToken;
         let balanceOfDeployer = await instance.balanceOf(deployerAccount);
         expect(instance.transfer(recipient, new BN(balanceOfDeployer + 1))).to.eventually.be.fulfilled;
-        expect(instance.balanceOf(deployerAccount)).to.eventually.be.a.bignumber.equal(balanceOfDeployer);
+        return expect(instance.balanceOf(deployerAccount)).to.eventually.be.a.bignumber.equal(balanceOfDeployer);
     })
     
 });
