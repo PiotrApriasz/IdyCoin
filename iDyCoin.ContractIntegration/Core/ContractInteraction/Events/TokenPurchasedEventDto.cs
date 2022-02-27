@@ -17,4 +17,5 @@ public class TokenPurchasedEventDto : IEventDTO
 
     [Parameter("uint256", "amount", 4, false)]
     public BigInteger Amount { get; set; }
+    
 }
