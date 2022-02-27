@@ -3,3 +3,8 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+node_modules
+.idea/.idea.iDyCoin/.idea/encodings.xml
+.idea/.idea.iDyCoin/.idea/indexLayout.xml
+.idea/.idea.iDyCoin/.idea/vcs.xml
+iDyCoin.Ethereum/.env
