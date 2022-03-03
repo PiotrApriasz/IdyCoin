@@ -8,7 +8,7 @@ namespace iDyCoin.ContractIntegration.Contracts;
 
 public class KycContract : IContract
 {
-    private IEthereumHostProvider _ethereumHostProvider;
+    private readonly IEthereumHostProvider _ethereumHostProvider;
     
     public string ContractAddress { get; set; }
 
