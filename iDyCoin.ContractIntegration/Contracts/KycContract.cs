@@ -1,4 +1,5 @@
-﻿using iDyCoin.ContractIntegration.Core.ContractInteraction.TransactionMethods;
+﻿using iDyCoin.ContractIntegration.Core.ContractInteraction.QueryMethods;
+using iDyCoin.ContractIntegration.Core.ContractInteraction.TransactionMethods;
 using iDyCoin.ContractIntegration.Utils;
 using iDyCoin.Metamask.Ethereum;
 using iDyCoin.Metamask.Metamask;
@@ -19,11 +20,47 @@ public class KycContract : IContract
 
     public async Task SetKycCompleted(string addr)
     {
+        var web3 = await _ethereumHostProvider.GetWeb3Async();
+        
         var setKycCompletedFunctionMessage = new SetKycCompletedFunction()
+        {
+            Addr = addr,
+            FromAddress = web3.TransactionManager.Account.Address
+        };
+        
+        var transactionHandler = web3.Eth.GetContractTransactionHandler<SetKycCompletedFunction>();
+        var transactionHash =
+            await transactionHandler.SendRequestAsync(ContractAddress, setKycCompletedFunctionMessage);
+    }
+
+    public async Task SetKycRevoked(string addr)
+    {
+        var web3 = await _ethereumHostProvider.GetWeb3Async();
+
+        var setKycRevokedFunctionMessage = new SetKycRevokedFunction()
+        {
+            Addr = addr,
+            FromAddress = web3.TransactionManager.Account.Address
+        };
+
+        var transactionHandler = web3.Eth.GetContractTransactionHandler<SetKycRevokedFunction>();
+        var transactionHash = 
+            await transactionHandler.SendRequestAsync(ContractAddress, setKycRevokedFunctionMessage);
+    }
+
+    public async Task<bool> KycCompleted(string addr)
+    {
+        var web3 = await _ethereumHostProvider.GetWeb3Async();
+        
+        var kycCompletedFunctionMessage = new KycCompletedFunction()
         {
             Addr = addr
         };
 
-        var web3 = await _ethereumHostProvider.GetWeb3Async();
+        var queryHandler = web3.Eth.GetContractQueryHandler<KycCompletedFunction>();
+        var kycCompleted = await queryHandler.QueryAsync<bool>(ContractAddress, kycCompletedFunctionMessage);
+
+        return kycCompleted;
     }
+    
 }
