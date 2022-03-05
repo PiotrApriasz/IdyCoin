@@ -3,6 +3,7 @@ using iDyCoin.ContractIntegration.Core.ContractInteraction.TransactionMethods;
 using iDyCoin.ContractIntegration.Utils;
 using iDyCoin.Metamask.Ethereum;
 using iDyCoin.Metamask.Metamask;
+using Nethereum.RPC.Eth;
 using Nethereum.RPC.Eth.DTOs;
 
 namespace iDyCoin.ContractIntegration.Contracts;
@@ -30,7 +31,9 @@ public class KycContract : IContract
             Nonce = await web3.Eth.Transactions.GetTransactionCount
                 .SendRequestAsync(web3.TransactionManager.Account.Address, BlockParameter.CreatePending())
         };
-        
+
+        var test = web3.Eth.GetBalance;
+
         var transactionHandler = web3.Eth.GetContractTransactionHandler<SetKycCompletedFunction>();
         var transactionHash =
             await transactionHandler.SendRequestAsync(ContractAddress, setKycCompletedFunctionMessage);
