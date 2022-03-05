@@ -30,7 +30,8 @@ public class IDyTokenSale : IContract
             {
                 From = fromAddress,
                 To = ContractAddress,
-                Value = new HexBigInteger(1)
+                Value = new HexBigInteger(1),
+                Gas = new HexBigInteger(900000)
             });
     }
 }
