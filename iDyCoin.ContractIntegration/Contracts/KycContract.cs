@@ -1,4 +1,5 @@
-﻿using iDyCoin.ContractIntegration.Core.ContractInteraction.QueryMethods;
+﻿using System.Numerics;
+using iDyCoin.ContractIntegration.Core.ContractInteraction.QueryMethods;
 using iDyCoin.ContractIntegration.Core.ContractInteraction.TransactionMethods;
 using iDyCoin.ContractIntegration.Utils;
 using iDyCoin.Metamask.Ethereum;
@@ -19,6 +20,21 @@ public class KycContract : IContract
         ContractAddress = ContractTools.GetContracAddress<KycContract>("5777");
         _ethereumHostProvider = new MetamaskHostProvider();
     }
+    
+    public async Task<BigInteger> BalanceOf(string addr)
+    {
+        var web3 = await _ethereumHostProvider.GetWeb3Async();
+
+        var balanceOfFunctionMessage = new BalanceOfFunction()
+        {
+            Owner = addr
+        };
+
+        var queryHandler = web3.Eth.GetContractQueryHandler<BalanceOfFunction>();
+        var balance = await queryHandler.QueryAsync<BigInteger>(ContractAddress, balanceOfFunctionMessage);
+
+        return balance;
+    }
 
     public async Task SetKycCompleted(string addr)
     {
@@ -31,8 +47,6 @@ public class KycContract : IContract
             Nonce = await web3.Eth.Transactions.GetTransactionCount
                 .SendRequestAsync(web3.TransactionManager.Account.Address, BlockParameter.CreatePending())
         };
-
-        var test = web3.Eth.GetBalance;
 
         var transactionHandler = web3.Eth.GetContractTransactionHandler<SetKycCompletedFunction>();
         var transactionHash =

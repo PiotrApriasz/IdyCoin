@@ -1,4 +1,6 @@
-﻿using iDyCoin.ContractIntegration.Core.ContractInteraction.TransactionMethods;
+﻿using System.Numerics;
+using iDyCoin.ContractIntegration.Core.ContractInteraction.QueryMethods;
+using iDyCoin.ContractIntegration.Core.ContractInteraction.TransactionMethods;
 using iDyCoin.ContractIntegration.Utils;
 using iDyCoin.Metamask.Ethereum;
 using iDyCoin.Metamask.Metamask;
@@ -33,5 +35,20 @@ public class IDyTokenSale : IContract
                 Value = new HexBigInteger(1),
                 Gas = new HexBigInteger(900000)
             });
+    }
+    
+    public async Task<BigInteger> BalanceOf(string addr)
+    {
+        var web3 = await _ethereumHostProvider.GetWeb3Async();
+
+        var balanceOfFunctionMessage = new BalanceOfFunction()
+        {
+            Owner = addr
+        };
+
+        var queryHandler = web3.Eth.GetContractQueryHandler<BalanceOfFunction>();
+        var balance = await queryHandler.QueryAsync<BigInteger>(ContractAddress, balanceOfFunctionMessage);
+
+        return balance;
     }
 }

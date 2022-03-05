@@ -1,4 +1,7 @@
-﻿using iDyCoin.ContractIntegration.Contracts;
+﻿using System.Numerics;
+using iDyCoin.ContractIntegration.Contracts;
+using iDyCoin.ContractIntegration.Core.ContractInteraction.QueryMethods;
+using iDyCoin.Metamask.Metamask;
 using Nethereum.Web3;
 using Newtonsoft.Json;
 
@@ -21,5 +24,15 @@ public static class ContractTools
         var contractAddress = (string)networksDic[chainId].address;
 
         return contractAddress;
+    }
+
+    public static async Task<BigInteger> GetBalance(string addr)
+    {
+        var ethereumHostProvider = new MetamaskHostProvider();
+        var web3 = await ethereumHostProvider.GetWeb3Async();
+
+        var balance = await web3.Eth.GetBalance.SendRequestAsync(addr);
+
+        return balance;
     }
 }
