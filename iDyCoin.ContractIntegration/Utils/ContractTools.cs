@@ -28,7 +28,7 @@ public static class ContractTools
 
     public static async Task<BigInteger> GetBalance(string addr)
     {
-        var ethereumHostProvider = new MetamaskHostProvider();
+        var ethereumHostProvider = new MetamaskHostProvider(null);
         var web3 = await ethereumHostProvider.GetWeb3Async();
 
         var balance = await web3.Eth.GetBalance.SendRequestAsync(addr);
