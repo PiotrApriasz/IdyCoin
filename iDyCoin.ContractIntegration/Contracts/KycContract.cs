@@ -18,7 +18,7 @@ public class KycContract : IContract
     public KycContract()
     {
         ContractAddress = ContractTools.GetContracAddress<KycContract>("5777");
-        _ethereumHostProvider = new MetamaskHostProvider();
+        _ethereumHostProvider = new MetamaskHostProvider(null);
     }
     
     public async Task<BigInteger> BalanceOf(string addr)

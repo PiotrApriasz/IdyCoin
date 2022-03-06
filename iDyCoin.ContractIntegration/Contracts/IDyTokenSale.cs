@@ -18,7 +18,7 @@ public class IDyTokenSale : IContract
     public IDyTokenSale()
     {
         ContractAddress = ContractTools.GetContracAddress<IDyTokenSale>("5777");
-        _ethereumHostProvider = new MetamaskHostProvider();
+        _ethereumHostProvider = new MetamaskHostProvider(null);
     }
 
     public async Task BuyToken()
