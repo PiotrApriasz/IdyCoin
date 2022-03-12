@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iDyCoin.Metamask", "iDyCoin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iDyCoin.Metamask.Blazor", "iDyCoin.Metamask.Blazor\iDyCoin.Metamask.Blazor.csproj", "{2D54A537-7445-43FD-A343-097E3C727A76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iDyCoin.Client.BlazorWasm", "iDyCoin.Client.BlazorWasm\iDyCoin.Client.BlazorWasm.csproj", "{F9D3F4D2-D905-4995-B27A-203FD9929E6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{2D54A537-7445-43FD-A343-097E3C727A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D54A537-7445-43FD-A343-097E3C727A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D54A537-7445-43FD-A343-097E3C727A76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9D3F4D2-D905-4995-B27A-203FD9929E6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9D3F4D2-D905-4995-B27A-203FD9929E6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9D3F4D2-D905-4995-B27A-203FD9929E6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9D3F4D2-D905-4995-B27A-203FD9929E6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
