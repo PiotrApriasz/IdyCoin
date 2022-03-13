@@ -13,6 +13,7 @@ public static class ContractTools
     {
         var contractName = typeof(T).Name;
         var contractBuildPath = $"../../../../iDyCoin.Ethereum/build/contracts/{contractName}.json";
+        //var contractBuildPath = $"E:/Projekty Blockchain/iDyCoin/iDyCoin.Ethereum/build/contracts/{contractName}.json"; 
 
         var contractJson = File.ReadAllText(contractBuildPath);
 

@@ -1,9 +1,53 @@
 ﻿@page "/"
+@inject IJSRuntime _jsRuntime;
+@inject IEthereumHostProvider _ethereumHostProvider;
+@inject NethereumAuthenticator  _nethereumAuthenticator;
+@using Nethereum.Hex.HexTypes;
+@using iDyCoin.Metamask.Ethereum
+@using iDyCoin.Client.BlazorWasm.Components
 
-<PageTitle>Index</PageTitle>
+<PageTitle>iDyCoin</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>iDyCoin Token Sale</h1>
 
-Welcome to your new app.
+@if (EthereumAvailable && !string.IsNullOrEmpty(SelectedAccount))
+{
+    <div class="card m-1">
+        <div class="card-body">
+            <div class="row">
+                <label class="col-sm-3 col-form-label-lg">Selected Account:</label>
+                <div class="col-sm-6">
+                    @SelectedAccount
+                    <small id="selectedAccountHelp" class="form-text text-muted">The selected account is bound to the host (ie Metamask) on change</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <KycWhitelisting></KycWhitelisting>
+}
+else
+{
+    <div>
+        Please connect to Metamask!
+    </div>
+}
 
-<SurveyPrompt Title="How is Blazor working for you?"/>
+@code{
+
+    bool EthereumAvailable { get; set; }
+    string SelectedAccount { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _ethereumHostProvider.SelectedAccountChanged += HostProvider_SelectedAccountChanged;
+        EthereumAvailable = await _ethereumHostProvider.CheckProviderAvailabilityAsync();
+    }
+
+    private async Task HostProvider_SelectedAccountChanged(string account)
+    {
+        SelectedAccount = account;
+        StateHasChanged();
+    }
+
+}

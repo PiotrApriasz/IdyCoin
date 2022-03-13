@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Components
+@using iDyCoin.Client.BlazorWasm.Models
+@using iDyCoin.ContractIntegration.Contracts
+@using iDyCoin.Metamask.Ethereum
+@using FluentValidation;
+@using Accelist.FluentValidation.Blazor;
+@using Microsoft.AspNetCore.Components.Forms
+@inject IEthereumHostProvider _ethereuHostProvider;
+
+
+<div class="card">
+    <h3>Kyc Whitelisting</h3>
+    <div class="card-body">
+        <EditForm Model="kycWhitelist" OnValidSubmit="@WhitelistAddress">
+            <FluentValidator></FluentValidator>
+            <div class="form-group row">
+                <label for="AccountAddress" class="col-sm-1 col-form-label">Account address: </label>
+                <div class="col-sm-10">
+                    <InputText id="AccountAddress" class="form-control" @bind-Value="kycWhitelist.AccountToWhitelist" type="text"></InputText>
+                    <ValidationMessage For="() => kycWhitelist.AccountToWhitelist"></ValidationMessage>
+                </div>
+            </div>
+            <div class="form-group">
+                <ValidationSummary></ValidationSummary>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                    Submit
+                </button>
+            </div>
+        </EditForm>
+        @if (ErrorMessage != null)
+        {
+            <div>An arror has occured: @ErrorMessage</div>
+        }
+    </div>
+</div>
+
+@code {
+    
+    KycWhitelistingModel kycWhitelist = new();
+    private string? ErrorMessage { get; set; }
+
+    private async Task WhitelistAddress()
+    {
+        try
+        {
+            var kycContract = new KycContract(_ethereuHostProvider);
+            await kycContract.SetKycCompleted(kycWhitelist.AccountToWhitelist);
+            
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            ErrorMessage = e.Message;
+            StateHasChanged();
+        }
+    }
+}

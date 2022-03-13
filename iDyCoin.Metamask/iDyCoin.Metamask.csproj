@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentValidation" Version="10.3.6" />
+      <PackageReference Include="FluentValidation" Version="10.4.0" />
       <PackageReference Include="Nethereum.JsonRpc.Client" Version="4.2.0" />
       <PackageReference Include="Nethereum.RPC" Version="4.2.0" />
       <PackageReference Include="Nethereum.Web3" Version="4.2.0" />
